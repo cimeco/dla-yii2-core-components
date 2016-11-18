@@ -1,6 +1,6 @@
 {
     "name": "quoma/yii2-core-components",
-    "type": "yii2-extension",
+    "type": "yii2-module",
     "description": "Componentes base de yii2",
     "keywords": ["yii2", "config"],
     "license": "quoma",
