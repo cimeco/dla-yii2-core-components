@@ -1,0 +1,23 @@
+{
+    "name": "quoma/yii2-core-components",
+    "type": "yii2-extension",
+    "description": "Componentes base de yii2",
+    "keywords": ["yii2", "config"],
+    "license": "quoma",
+    "authors": [
+        {
+            "name": "Quoma",
+            "email": "info@quoma.com.ar"
+        }
+    ],
+
+    "require": {
+        "yiisoft/yii2": "~2.0.0"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "quoma\\core\\": "src/"
+        }
+    }
+}
