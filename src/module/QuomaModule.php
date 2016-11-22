@@ -62,4 +62,9 @@ abstract class QuomaModule extends Module
             $this->params = require(__DIR__ . '/params.php');
         }
     }
+
+    /**
+     * @return Menu
+     */
+    public abstract function getMenu();
 }
