@@ -8,6 +8,7 @@
 
 namespace quoma\core\module;
 
+use quoma\core\menu\Menu;
 use Yii;
 use yii\base\Module;
 
@@ -66,5 +67,5 @@ abstract class QuomaModule extends Module
     /**
      * @return Menu
      */
-    public abstract function getMenu();
+    public abstract function getMenu(Menu $menu);
 }

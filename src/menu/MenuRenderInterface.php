@@ -14,5 +14,5 @@ namespace quoma\core\menu;
  */
 interface MenuRenderInterface
 {
-    public function render($menu);
+    public function render(Menu $menu);
 }

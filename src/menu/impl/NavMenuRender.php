@@ -19,66 +19,58 @@ use quoma\core\menu\MenuRenderInterface;
  */
 class NavMenuRender implements  MenuRenderInterface
 {
-
     /**
      * Crea el array de menu para renderizar.
      *
      * @param mixed $menu
      * @return array
      */
-    public function render($menu)
+    public function render(Menu $menu)
     {
-        $main = [];
-        if(is_array($menu)) {
-            /** @var Menu $menu */
-            foreach( $menu as $menuItem ) {
-                if($menuItem->hasChilds()) {
-                    $items = $this->render($menuItem);
+        $item = [];
+        // Seguramente es el menu padre o algo asi
+        if($menu->getType() == null) {
+            if($menu->hasSubItems()) {
+                $items = [];
+                foreach ($menu->getSubItems() as $subItem) {
+                    $items[] = $this->render($subItem);
                 }
-                $item = $this->createItem($menuItem);
-                if(!empty($items)) {
-                    $item['items'] = $items;
-                }
-                $main[] = $item;
+                $item  = $items;
             }
-        } else {
-            if($menu->hasChilds()){
-                foreach ($menu->getChilds() as $child) {
-                    $items[] = $this->render($child);
+        } else if($menu->getType() == Menu::MENU_TYPE_ROOT || ($menu->getType() == Menu::MENU_TYPE_ITEM && $menu->hasSubItems() ) ) {
+            $items = [];
+            if($menu->hasSubItems()) {
+                foreach ($menu->getSubItems() as $subItem) {
+                    $items[] = $this->render($subItem);
                 }
+            }
+            $item['label'] = $menu->getLabel();
+            $item['visible'] = $menu->isVisible();
+            if(!empty($menu->getUrl())) {
+                $item['url'] = $menu->getUrl();
+            }
+            if(!empty($menu->getExtraData())) {
+                $item= array_merge($item,  $menu->getExtraData());
             }
 
-            if(!$menu->isRoot()) {
-                $main = $this->createItem($menu);
-                if(!empty($items)) {
-                    $main['items'] = $items;
-                }
-            } else {
-                $main[] = $this->createItem($menu);
-                if(!empty($items)) {
-                    $main[count($main)]['items'] = $items;
-                }
+            if(!empty($items)) {
+                $item['items'] = $items;
             }
-        }
-        return $main;
-    }
 
-    /**
-     * Crea cada item del menu.
-     *
-     * @param Menu $menu
-     * @return array
-     */
-    private function createItem(Menu $menu)
-    {
-        $result['label'] = $menu->getLabel();
-        $result['visible'] = $menu->getVisible();
-        if(!empty($menu->getUrl())) {
-            $result['url'] = $menu->getUrl();
+        } else if($menu->getType() == Menu::MENU_TYPE_ITEM) {
+            $item['label'] = $menu->getLabel();
+            $item['visible'] = $menu->isVisible();
+            if(!empty($menu->getUrl())) {
+                $item['url'] = $menu->getUrl();
+            }
+            if(!empty($menu->getExtraData())) {
+                $item = array_merge($item,  $menu->getExtraData());
+            }
+
+        } else if($menu->getType() == Menu::MENU_TYPE_DIVIDER) {
+            $item = ['label' => '<li class="divider"></li>'];
         }
-        if(!empty($menu->getExtraData())) {
-            $result = array_merge($result,  $menu->getExtraData());
-        }
-        return $result;
+        return $item;
+
     }
 }

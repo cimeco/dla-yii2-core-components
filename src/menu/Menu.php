@@ -8,107 +8,54 @@
 
 namespace quoma\core\menu;
 
+class Menu {
+    const MENU_TYPE_ROOT     = 'root';
+    const MENU_TYPE_DIVIDER  = 'divider';
+    const MENU_TYPE_ITEM     = 'item';
 
-class Menu
-{
-
-    private $label;
-    private $url;
-    private $visible;
-    private $childs = [];
-    private $type;
-    private $extra_data = null;
-    private $is_root = false;
-
-    const MENU_ITEM = 'item';
-    const MENU_DIVIDER = 'divider';
-
-    public function __construct($label="", $url=[], $visible=true, $type = Menu::MENU_ITEM, $extra_data = [], $is_root = false)
-    {
-        $this->label        = $label;
-        $this->url          = $url;
-        $this->visible      = $visible;
-        $this->type         = $type;
-        $this->extra_data   = $extra_data;
-        $this->is_root      = $is_root;
-    }
+    const MENU_POSITION_FIRST = 'first';
+    const MENU_POSITION_LAST = 'last';
+    const MENU_POSITION_BEFORE = 'before';
+    const MENU_POSITION_AFTER = 'after';
 
     /**
-     * @return mixed
+     * @var $sub_items
      */
-    public function getLabel()
-    {
-        return $this->label;
-    }
+    private $sub_items = [];
 
     /**
-     * @param mixed $label
-     * @return Menu
+     * @var string
      */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-        return $this;
-    }
+    protected $type = Menu::MENU_TYPE_ITEM;
+    /**
+     * @var $name
+     */
+    private $name;
 
     /**
-     * @return mixed
+     * @var $label
      */
-    public function getUrl()
-    {
-        return $this->url;
-    }
+    protected $label = null;
 
     /**
-     * @param mixed $url
-     * @return Menu
+     * @var bool
      */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-        return $this;
-    }
+    protected $visible = true;
 
     /**
-     * @return mixed
+     * @var array
      */
-    public function getVisible()
-    {
-        return $this->visible;
-    }
-
+    protected $url = null;
     /**
-     * @param mixed $visible
-     * @return Menu
+     * @var $extra_data mixed
      */
-    public function setVisible($visible)
+    protected $extra_data = null;
+
+    public function __construct($type)
     {
-        $this->visible = $visible;
-        return $this;
+        $this->type = $type;
     }
 
-    /**
-     * @return array
-     */
-    public function getChilds()
-    {
-        return $this->childs;
-    }
-
-    /**
-     * @param array $childs
-     * @return Menu
-     */
-    public function setChilds($childs)
-    {
-        $this->childs = $childs;
-        return $this;
-    }
-
-    public function hasChilds()
-    {
-        return count($this->childs) != 0;
-    }
     /**
      * @return string
      */
@@ -127,8 +74,63 @@ class Menu
         return $this;
     }
 
+
     /**
-     * @return array|null
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return Menu
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param string $label
+     * @return Menu
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isVisible()
+    {
+        return $this->visible;
+    }
+
+    /**
+     * @param boolean $visible
+     * @return Menu
+     */
+    public function setVisible($visible)
+    {
+        $this->visible = $visible;
+        return $this;
+    }
+
+    /**
+     * @return mixed
      */
     public function getExtraData()
     {
@@ -136,7 +138,7 @@ class Menu
     }
 
     /**
-     * @param array|null $extra_data
+     * @param mixed $extra_data
      * @return Menu
      */
     public function setExtraData($extra_data)
@@ -146,37 +148,98 @@ class Menu
     }
 
     /**
-     * @return boolean
+     * @return array
      */
-    public function isRoot()
+    public function getUrl()
     {
-        return $this->is_root;
+        return $this->url;
     }
 
     /**
-     * @param boolean $is_root
+     * @param array $url
      * @return Menu
      */
-    public function setIsRoot($is_root)
+    public function setUrl($url)
     {
-        $this->is_root = $is_root;
+        $this->url = $url;
         return $this;
     }
 
 
-    public function addChild(Menu $item)
+    /**
+     * @return array
+     */
+    public function getSubItems()
     {
-        $this->childs[] = $item;
+        return $this->sub_items;
+    }
 
+    /**
+     * @param array $sub_items
+     * @return Menu
+     */
+    public function setSubItems($sub_items)
+    {
+        $this->sub_items = $sub_items;
         return $this;
     }
 
-    public function removeChild($index)
+    /**
+     * @return bool
+     */
+    public function hasSubItems()
     {
-        if(array_key_exists($index, $this->childs)!==false) {
-            unset($this->childs[$index]);
+        return (count($this->sub_items) != 0);
+    }
+
+    /**
+     * @param $index|name
+     * @return mixed|null
+     */
+    public function getItem($index)
+    {
+        if(is_numeric($index)) {
+            if($index < count($this->sub_items)) {
+                return $this->sub_items[$index];
+            }
+        } else {
+            foreach ($this->sub_items as $menu) {
+                if($menu->getName() == $index) {
+                    return $menu;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public function addItem(Menu $subMenu, $position = Menu::MENU_POSITION_LAST, $position_reference = null)
+    {
+        if($position == Menu::MENU_POSITION_FIRST) {
+            array_unshift($this->sub_items, $subMenu);
+        } else if($position == Menu::MENU_POSITION_LAST) {
+            array_push($this->sub_items, $subMenu);
+        } else if($position == Menu::MENU_POSITION_BEFORE|| $position == Menu::MENU_POSITION_AFTER) {
+            if($position_reference) {
+                $index_position = null;
+                array_walk($this->sub_items, function($item, $index) use ($position_reference, &$index_position) {
+                    if($item->getName() == $position_reference) {
+                        $index_position = $index;
+                    }
+                });
+                if($index_position!==null) {
+                    $slice_offset = ($position == Menu::MENU_POSITION_BEFORE? $index_position : $index_position + 1);
+                    $this->sub_items = array_merge(
+                        array_slice($this->sub_items, 0, $slice_offset),
+                        [$subMenu],
+                        array_slice($this->sub_items, $slice_offset)
+                    );
+                }
+
+            } else {
+                throw new \Exception('No position_reference.');
+            }
         }
         return $this;
     }
-
 }
