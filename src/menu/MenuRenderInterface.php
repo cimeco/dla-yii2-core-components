@@ -14,5 +14,10 @@ namespace quoma\core\menu;
  */
 interface MenuRenderInterface
 {
+    /**
+     * Renderiza el menu
+     * @param Menu $menu
+     * @return mixed
+     */
     public function render(Menu $menu);
 }
