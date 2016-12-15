@@ -67,8 +67,9 @@ abstract class QuomaModule extends Module implements BootstrapInterface
      */
     public function loadParams()
     {
-        if(file_exists(__DIR__ . '/params.php')){
-            $this->params = require(__DIR__ . '/params.php');
+        $dir = dirname((new \ReflectionClass($this))->getFileName());
+        if(file_exists($dir . '/params.php')){
+            $this->params = require($dir . '/params.php');
         }
     }
 
