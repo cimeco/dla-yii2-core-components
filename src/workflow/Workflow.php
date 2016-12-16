@@ -13,7 +13,7 @@ class Workflow
 {
     public static function changeState($object, $new_state)
     {
-        if ( array_key_exists("app\\components\\workflow\\WithWorkflow", class_uses($object) )!==false) {
+        if ( array_key_exists("quoma\\core\\workflow\\WithWorkflow", class_uses($object) )!==false) {
 
             return $object->changeState($new_state);
         } else {

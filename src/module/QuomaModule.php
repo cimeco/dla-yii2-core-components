@@ -10,6 +10,7 @@ namespace quoma\core\module;
 
 use quoma\core\menu\Menu;
 use Yii;
+use yii\base\BootstrapInterface;
 use yii\base\Module;
 
 /**
@@ -22,13 +23,20 @@ use yii\base\Module;
  *
  * @package quoma\core\module
  */
-abstract class QuomaModule extends Module
+abstract class QuomaModule extends Module implements BootstrapInterface
 {
+    protected $namespace = '';
 
     public function init()
     {
         parent::init();
+        // Creo un alias con el id unico, para mas facil acceso.
         Yii::setAlias("@".$this->getUniqueId(), $this->basePath);
+
+        // Creo un alias con el namespace, para poder usarlo con cosas internas de Yii (commands)
+        $class = get_called_class();
+        $this->namespace = str_replace('\\', '/', substr($class, 0, strrpos($class, '\\')));
+        Yii::setAlias("@".$this->namespace , $this->basePath);
     }
 
     /**
@@ -63,6 +71,13 @@ abstract class QuomaModule extends Module
             $this->params = require(__DIR__ . '/params.php');
         }
     }
+
+    public function bootstrap($app) {
+        if ($app instanceof \yii\console\Application) {
+            $this->controllerNamespace = str_replace("/", "\\", $this->namespace ). '\commands';
+        }
+    }
+
 
     /**
      * @return Menu
