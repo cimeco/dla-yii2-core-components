@@ -63,7 +63,9 @@ abstract class QuomaModule extends Module implements BootstrapInterface
     }
 
     /**
-     * Carga los parametros por defecto para el modulo, solo si existe el archivo.
+     * Carga los parametros por defecto del modulo, y de existir, carga los parametros
+     * particulares para la aplicacion. Los particulares, se deben guardar en
+     * config/ y el nombre seria params-(id del modulo).php
      */
     public function loadParams()
     {
@@ -71,8 +73,18 @@ abstract class QuomaModule extends Module implements BootstrapInterface
         if(file_exists($dir . '/params.php')){
             $this->params = require($dir . '/params.php');
         }
+        $externalConfig = Yii::getAlias('@app')."/config/params-".$this->getUniqueId().".php";
+        if(file_exists($externalConfig)) {
+            $this->params = array_replace_recursive($this->params, require ($externalConfig) );
+        }
+
     }
 
+    /**
+     * Se ejecuta siempre y pone el namespace para buscar los comandos por defecto.
+     *
+     * @param \yii\base\Application $app
+     */
     public function bootstrap($app) {
         if ($app instanceof \yii\console\Application) {
             $this->controllerNamespace = str_replace("/", "\\", $this->namespace ). '\commands';
