@@ -27,6 +27,9 @@ class ClassFinderHelper
         // Itero en los directorios configuados
         foreach ($config as $key=>$dir) {
             // Obtengo todos los archivos
+            foreach(Yii::$app->modules as $key=>$value)
+                Yii::$app->getModule($key);
+
             $fullDir = Yii::getAlias($dir);
             $files = scandir($fullDir);
             // Itero los archivos buscando clases

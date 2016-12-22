@@ -37,6 +37,12 @@ abstract class QuomaModule extends Module implements BootstrapInterface
         $class = get_called_class();
         $this->namespace = str_replace('\\', '/', substr($class, 0, strrpos($class, '\\')));
         Yii::setAlias("@".$this->namespace , $this->basePath);
+
+        foreach($this->getDependencies() as $dependency) {
+            if(Yii::$app->hasModule($dependency)) {
+                Yii::$app->getModule($dependency);
+            }
+        }
     }
 
     /**
@@ -96,4 +102,11 @@ abstract class QuomaModule extends Module implements BootstrapInterface
      * @return Menu
      */
     public abstract function getMenu(Menu $menu);
+
+    /**
+     * Retorna un arreglo con los nombres de los modulos de los que se depende.
+     *
+     * @return array
+     */
+    public abstract function getDependencies();
 }

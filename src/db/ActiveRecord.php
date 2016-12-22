@@ -7,7 +7,7 @@ namespace quoma\core\db;
  *
  * @author mmoyano
  */
-class ActiveRecord extends \yii\db\ActiveRecord{
+class ActiveRecord extends \yii\db\ActiveRecord {
 
     /**
      * Carga dinamicamente los behaviors en base a los configurados en params.
