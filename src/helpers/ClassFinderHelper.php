@@ -21,8 +21,11 @@ class ClassFinderHelper
      * @param $config   Listado de directorios
      * @return array
      */
-    public static function findClasses($config, $excludeAbstract=true, $excludeInterface=true)
+    public static function findClasses($config, $excludeAbstract=true, $excludeInterface=true, $extends = [], $implements = [])
     {
+        $extends = is_null($extends) ? [] : $extends;
+        $implements = is_null($implements) ? [] : $implements;
+
         $classes = get_declared_classes();
         // Itero en los directorios configuados
         foreach ($config as $key=>$dir) {
@@ -45,7 +48,23 @@ class ClassFinderHelper
         foreach ($classes as $clase) {
             $class = new ReflectionClass($clase);
             if( ($class->isAbstract() && !$excludeAbstract) || ($class->isInterface() && !$excludeInterface) || ($excludeInterface && $excludeAbstract) ) {
-                $retClasses[] = $clase;
+                // Verifico que extienda alguna de las clases pasadas por parametros
+                $extendsImplements = (count($extends)==0 && count($implements));
+                foreach($extends as $value) {
+                    if($class->isSubclassOf($value)) {
+                        $extendsImplements = true;
+                        break;
+                    }
+                }
+                foreach($implements as $value) {
+                    if($class->implementsInterface($value)) {
+                        $extendsImplements = true;
+                        break;
+                    }
+                }
+                if( $extendsImplements ) {
+                    $retClasses[] = $clase;
+                }
             }
         }
         return $retClasses;
