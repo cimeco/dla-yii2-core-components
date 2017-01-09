@@ -28,7 +28,9 @@ class Controller extends \yii\web\Controller{
     
     public function beforeAction($action) {
         if (parent::beforeAction($action)) {
-            \app\models\Log::log();
+            if(\Yii::$app->hasModule('log')) {
+                quoma\modules\log\models\Log::log();
+            }
             return true;
         }
         return false;

@@ -242,4 +242,25 @@ class Menu {
         }
         return $this;
     }
+
+    public function getElementByName($name, Menu $menu) {
+        if($name == $menu->getName()) {
+            return $menu;
+        } else {
+            /**
+             * @var string $key
+             * @var Menu $value
+             */
+            foreach ($menu->getSubItems() as $key => $value) {
+                if($value->getName() == $name){
+                    return $value;
+                } else {
+                    if(($_menu = $this->getElementByName($name, $value))!==null) {
+                        return $_menu;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }
