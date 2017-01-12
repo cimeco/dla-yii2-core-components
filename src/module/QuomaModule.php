@@ -99,6 +99,25 @@ abstract class QuomaModule extends Module implements BootstrapInterface
 
 
     /**
+     * Sobre-escribe el controlador de un modulo en particular
+     *
+     *
+     * @param $module string Modulo que contiene el controlador a sobre-escribir
+     * @param $controller string Controlador a sobre-escribir
+     * @param $class string Clase que sobre-escribe al controlador
+     */
+    public function overwriteController($module, $controller, $class)
+    {
+        if(Yii::$app->hasModule($module)) {
+            Yii::$app->getModule($module)->controllerMap = [
+                $controller => $class
+            ];
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @return Menu
      */
     public abstract function getMenu(Menu $menu);
