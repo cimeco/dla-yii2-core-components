@@ -8,16 +8,10 @@ namespace quoma\core\helpers;
  * @author marcelo
  */
 class DbHelper {
-    
-    /**
-     * return database name of a connection
-     * 
-     * @param type $connection
-     * @return string
-     */
-
-    public static function getDbName($connection) {
-        $dsn = $connection->dsn;
+        
+   public static function getDbName($db = 'db')
+    {
+        $dsn = Yii::$app->get($db)->dsn;
         if (preg_match('/' . 'dbname' . '=([^;]*)/', $dsn, $match)) {
             return $match[1];
         } else {
