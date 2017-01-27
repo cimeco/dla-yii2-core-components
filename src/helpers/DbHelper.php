@@ -11,7 +11,7 @@ class DbHelper {
         
    public static function getDbName($db = 'db')
     {
-        $dsn = Yii::$app->get($db)->dsn;
+        $dsn = \Yii::$app->get($db)->dsn;
         if (preg_match('/' . 'dbname' . '=([^;]*)/', $dsn, $match)) {
             return $match[1];
         } else {
