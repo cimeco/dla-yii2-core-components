@@ -1,6 +1,6 @@
 var CharsCounter = new function(){
     this.init = function(){
-        $('[data-chars-count] input').on('keydown change', function(){
+        $('[data-chars-count] input').on('keyup change', function(){
             count($(this).closest('[data-chars-count]'));
         })
     }
