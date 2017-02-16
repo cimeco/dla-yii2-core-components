@@ -35,5 +35,25 @@ class ActiveRecord extends \yii\db\ActiveRecord {
         return false;
         
     }
+        
+    /**
+     * Devuelve la lista de errores en forma concatenada
+     *
+     * @return string
+     */
+    public function getErrorsAsString()
+    {
+        $result = '';
+        foreach ($this->getErrors() as $attribute => $messages) {
+            foreach ($messages as $message) {
+                $attributeLabel = $this->getAttributeLabel($attribute);
+                if (!empty($result)) {
+                    $result .= ' | ';
+                }
+                $result .= $attributeLabel . ': ' . $message;
+            }
+        }
+        return $result;
+    }
     
 }
