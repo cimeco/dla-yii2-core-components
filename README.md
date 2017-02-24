@@ -7,7 +7,7 @@ yii2-core-components
 
 ### How do I get set up? ###
 
-Que encontramos en el modulo:
+* Que encontramos en el modulo:
 * Asset the bootstrap.
 * Active Record que usamos para los modelos y un BigDataProvider para grillas con muchos datos.
 * Helpers no agrupados (seria bueno poder ordenarlos y agruparlos).
@@ -16,7 +16,7 @@ Que encontramos en el modulo:
 * Controlador Base.
 * Un par de Widgets (revisar, puede que no sirvan...).
 * Workflow simple.
-
+* 
 ### Contribution guidelines ###
 
 La idea es que pongamos todo lo que sea reutilizable por mas de un modulo y que sea de utilidad en general.
