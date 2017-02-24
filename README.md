@@ -1,29 +1,24 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+yii2-core-components
 
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Componentes varios para proyectos con Yii2 de Quoma
+* 0.3.0
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Que encontramos en el modulo:
+* Asset the bootstrap.
+* Active Record que usamos para los modelos y un BigDataProvider para grillas con muchos datos.
+* Helpers no agrupados (seria bueno poder ordenarlos y agruparlos).
+* Estructura basica de Menu.
+* Modulo de Quoma para extiendan todos los modulos.
+* Controlador Base.
+* Un par de Widgets (revisar, puede que no sirvan...).
+* Workflow simple.
 
 ### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+La idea es que pongamos todo lo que sea reutilizable por mas de un modulo y que sea de utilidad en general.
+Hay que tener en cuenta que ya se esta utilizando, asi que si se hace un cambio importante, hacer un branch
+y/o probarlo bien.
