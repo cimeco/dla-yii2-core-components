@@ -10,6 +10,7 @@ namespace quoma\core\web;
 
 use yii\filters\auth\HttpBasicAuth;
 use yii\web\Response;
+use Yii;
 
 /**
  * REST Authentication
@@ -20,6 +21,7 @@ use yii\web\Response;
  * @author martin
  */
 class RestController extends \yii\rest\ActiveController{
+
 
     public function behaviors()
     {
@@ -67,7 +69,6 @@ class RestController extends \yii\rest\ActiveController{
      */
     public function actionLogin()
     {
-
         $model = new \webvimark\modules\UserManagement\models\forms\LoginForm();
         $model->username = Yii::$app->request->post('username');
         $model->password = Yii::$app->request->post('password');

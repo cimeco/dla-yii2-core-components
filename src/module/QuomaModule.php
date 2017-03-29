@@ -65,7 +65,7 @@ abstract class QuomaModule extends Module implements BootstrapInterface
      * @return string
      */
     public static function t($message, $params = [], $language = null, $category='' ) {
-        return \Yii::t((empty($category) ? self::getInstance()->getUniqueId() : $category ), $message, $params, $language);
+        return \Yii::t((empty($category) ? (self::getInstance() ? self::getInstance()->getUniqueId() : 'app')  : $category ), $message, $params, $language);
     }
 
     /**
