@@ -47,6 +47,7 @@ class RestController extends \yii\rest\ActiveController{
                 'class' => HttpBasicAuth::className(),
                 'auth' => function ($username, $password) {
                     // Return Identity object or null
+                    
                     $user = \webvimark\modules\UserManagement\models\User::findOne([
                         'username' => $username,
                     ]);
@@ -80,9 +81,10 @@ class RestController extends \yii\rest\ActiveController{
             //$identity = Yii::$app->user->identity;
 
             return [
-                'status' => 'success',
-                'auth_key' => $model->getUser()->auth_key,
-                'username' => $model->getUser()->username
+                'status'    => 'success',
+                'auth_key'  => $model->getUser()->auth_key,
+                'username'  => $model->getUser()->username,
+                'user_id'   => $model->getUser()->getId()
             ];
         }
 
