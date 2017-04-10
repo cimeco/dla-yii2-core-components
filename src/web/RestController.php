@@ -23,6 +23,31 @@ use Yii;
 class RestController extends \yii\rest\ActiveController{
 
 
+    /**
+     * Retorna los metodos posibles del controlador
+     *
+     * @return array
+     */
+    public function getMethods()
+    {
+        return [
+            'login'
+        ];
+    }
+
+    public function actions()
+    {
+        $actions = parent::actions();
+        $methods = $this->getMethods();
+        foreach ($actions as $key => $action ) {
+            if (array_search($key, $methods)===false) {
+                unset($actions[$key]);
+            }
+        }
+
+        return $actions;
+    }
+
     public function behaviors()
     {
         $auth_api = (isset(\Yii::$app->params['auth_api']) ? \Yii::$app->params['auth_api'] : true );
@@ -31,7 +56,7 @@ class RestController extends \yii\rest\ActiveController{
         $behaviors =  [
             [
                 'class' => 'yii\filters\ContentNegotiator',
-                'only' => ['view', 'index', 'login'],  // in a controller
+                'only' => $this->getMethods(),  // in a controller
                 // if in a module, use the following IDs for user actions
                 // 'only' => ['user/view', 'user/index']
                 'formats' => [
@@ -47,7 +72,7 @@ class RestController extends \yii\rest\ActiveController{
                 'class' => HttpBasicAuth::className(),
                 'auth' => function ($username, $password) {
                     // Return Identity object or null
-                    
+
                     $user = \webvimark\modules\UserManagement\models\User::findOne([
                         'username' => $username,
                     ]);
