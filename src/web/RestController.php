@@ -20,29 +20,30 @@ use Yii;
  *
  * @author martin
  */
-class RestController extends \yii\rest\ActiveController{
+abstract class RestController extends \yii\rest\ActiveController{
 
 
+    public $defaultMethods = ['login'];
     /**
      * Retorna los metodos posibles del controlador
      *
      * @return array
      */
-    public function getMethods()
-    {
-        return [
-            'login'
-        ];
-    }
+    public abstract function getMethods();
+
+    /**
+     * Retorna los metodos que hay que deshabilitar por defecto.
+     *
+     * @return array
+     */
+    public abstract function getDisabledDefaultActions();
 
     public function actions()
     {
         $actions = parent::actions();
-        $methods = $this->getMethods();
-        foreach ($actions as $key => $action ) {
-            if (array_search($key, $methods)===false) {
-                unset($actions[$key]);
-            }
+        $disabled_actions = $this->getDisabledDefaultActions();
+        foreach ($disabled_actions as $key => $action ) {
+            unset($actions[$action]);
         }
 
         return $actions;
