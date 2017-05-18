@@ -234,8 +234,9 @@ class Menu {
                         [$subMenu],
                         array_slice($this->sub_items, $slice_offset)
                     );
+                } else {
+                    array_push($this->sub_items, $subMenu);
                 }
-
             } else {
                 throw new \Exception('No position_reference.');
             }
