@@ -25,7 +25,7 @@ class NavMenuRender implements  MenuRenderInterface
      * @param mixed $menu
      * @return array
      */
-    public function render(Menu $menu)
+    public function render(Menu $menu, $isGhostMenu = false)
     {
         $item = [];
         // Seguramente es el menu padre o algo asi
@@ -33,7 +33,7 @@ class NavMenuRender implements  MenuRenderInterface
             if($menu->hasSubItems()) {
                 $items = [];
                 foreach ($menu->getSubItems() as $subItem) {
-                    $items[] = $this->render($subItem);
+                    $items[] = $this->render($subItem, $isGhostMenu);
                 }
                 $item  = $items;
             }
@@ -41,11 +41,13 @@ class NavMenuRender implements  MenuRenderInterface
             $items = [];
             if($menu->hasSubItems()) {
                 foreach ($menu->getSubItems() as $subItem) {
-                    $items[] = $this->render($subItem);
+                    $items[] = $this->render($subItem, $isGhostMenu);
                 }
             }
             $item['label'] = $menu->getLabel();
-            $item['visible'] = $menu->isVisible();
+            if (!$isGhostMenu) {
+                $item['visible'] = $menu->isVisible();
+            }
             if(!empty($menu->getUrl())) {
                 $item['url'] = $menu->getUrl();
             }
@@ -59,7 +61,9 @@ class NavMenuRender implements  MenuRenderInterface
 
         } else if($menu->getType() == Menu::MENU_TYPE_ITEM) {
             $item['label'] = $menu->getLabel();
-            $item['visible'] = $menu->isVisible();
+            if (!$isGhostMenu) {
+                $item['visible'] = $menu->isVisible();
+            }
             if(!empty($menu->getUrl())) {
                 $item['url'] = $menu->getUrl();
             }
