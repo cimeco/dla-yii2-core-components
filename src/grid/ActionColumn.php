@@ -99,7 +99,8 @@ class ActionColumn extends Column
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $contentOptions = [
-        'class' => 'hidden-print'
+        'class' => 'hidden-print',
+        'style' => 'width:150px; text-align:center;'
     ];
     /**
      * @var array the HTML attributes for the header cell tag.
