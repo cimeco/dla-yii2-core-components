@@ -2,7 +2,52 @@ var CharsCounter = new function(){
     this.init = function(){
         $('[data-chars-count] input').on('keyup change', function(){
             count($(this).closest('[data-chars-count]'));
-        })
+        });
+        
+        $('[data-inline-input]').each(function(){ placeholder(this); });
+        
+        $('[data-inline-input]').on('keyup keypress cut copy paste mouseup', function(){ 
+            $(this).parent().find('input').val($(this).text());
+            count($(this).closest('[data-chars-count]'));
+            
+            placeholder(this);
+        });
+        
+        $('[data-inline-input]').on("paste", function(e) {
+            
+            // cancel paste
+            e.preventDefault();
+            
+            // get text representation of clipboard
+            var text = e.originalEvent.clipboardData.getData("text/plain");
+            
+            var limit = $(this).parent().attr('data-limit');
+            if(text.length > limit){
+                text = text.trim();
+                text = text.substring(0, limit);
+            }
+
+            // insert text manually
+            document.execCommand("insertHTML", false, text);
+        });
+        
+        $('[data-inline-input]').on('keydown', function(event){ 
+            var limit = $(this).parent().attr('data-limit');
+            var len = $(this).parent().children('input').val().length;
+            if(len >= limit && event.keyCode != 8){
+                event.preventDefault();
+            }
+        });
+    }
+    
+    function placeholder(element)
+    {
+        var len = $(element).parent().children('input').val().length;
+        if(len > 0){
+            $(element).parent().find('[data-placeholder]').css('opacity', 0);
+        }else{
+            $(element).parent().find('[data-placeholder]').css('opacity', 1);
+        }
     }
     
     function count(element){
