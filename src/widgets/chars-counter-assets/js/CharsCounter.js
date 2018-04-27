@@ -34,7 +34,7 @@ var CharsCounter = new function(){
         $('[data-inline-input]').on('keydown', function(event){ 
             var limit = $(this).parent().attr('data-limit');
             var len = $(this).parent().children('input').val().length;
-            if(len >= limit && event.keyCode != 8){
+            if(len >= limit && ![8,37,38,39,40,46].includes(event.keyCode)){
                 event.preventDefault();
             }
         });
