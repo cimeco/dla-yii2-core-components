@@ -112,6 +112,7 @@ class MenuItem extends ActiveRecord
     public static function getTypes(){
         
         $items_paths = array_merge(MenuModule::getInstance()->defaultItemsPath, MenuModule::getInstance()->itemsPaths);
+        \Yii::info($items_paths);
         $classes= ClassFinderHelper::findClasses($items_paths, true, true, [MenuItem::className()]);
         $types= [];
         \Yii::info($classes);

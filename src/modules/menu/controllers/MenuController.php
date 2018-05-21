@@ -136,7 +136,7 @@ class MenuController extends Controller
      */
     public function actionItemForm($view){
         if (\Yii::$app->request->isAjax) {
-            $form = $this->renderFile($view);
+            $form = $this->renderAjax($view);
             
             \Yii::$app->response->format= \yii\web\Response::FORMAT_JSON;
             

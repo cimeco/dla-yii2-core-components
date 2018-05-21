@@ -14,7 +14,10 @@ class MenuModule extends QuomaModule
      */
     public $controllerNamespace = 'quoma\core\modules\menu\controllers';
 
-    public $defaultItemsPath = ['@menu/components/defaultitems'];
+    public $defaultItemsPath = [
+        '@menu/components/defaultitems/absolute',
+        '@menu/components/defaultitems/dropdown'
+    ];
 
     public $itemsPaths= [];
 

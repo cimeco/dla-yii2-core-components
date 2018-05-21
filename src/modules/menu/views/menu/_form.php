@@ -9,8 +9,6 @@ use yii\bootstrap\ActiveForm;
     .menu_item {
 
         min-height: 50px;
-        background-color: white;
-        border: 1px solid gainsboro;
         margin-bottom: 5px;
         float: left;
 
@@ -37,6 +35,11 @@ use yii\bootstrap\ActiveForm;
     }
     .input-group-addon{
         border-bottom-left-radius: 0 0;
+    }
+
+    .dropdown-link {
+        min-height: 100px;
+        background-color: white;
     }
 
 
@@ -170,8 +173,12 @@ use yii\bootstrap\ActiveForm;
         this.render= function(label, url, target, parent, position, link_class, typeName, child) {
             var pos= parent === '#' ? '['+ position + ']' : '['+parent+'][children]['+ position + ']';
 
-            var item = '<li class="menu_item" id="i'+position+'" data-type_name="'+typeName+'" data-children='+ child +'> ';
+            if(parent === '#' && child) {
+                var item = '<li class="menu_item dropdown-link" id="i' + position + '" data-type_name="' + typeName + '" data-children=' + child + '> ';
+            }else{
+                var item = '<li class="menu_item" id="i' + position + '" data-type_name="' + typeName + '" data-children=' + child + '> ';
 
+            }
             item = item + '<div class="input-group">'+
                               '<span class="input-group-addon"><span class="glyphicon glyphicon-move"></span></span>'+
                               '<span class="input-group-addon">'+typeName+'</span>';

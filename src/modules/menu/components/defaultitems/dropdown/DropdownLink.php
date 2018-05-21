@@ -6,7 +6,7 @@
  * Time: 14:17
  */
 
-namespace quoma\core\modules\menu\models\items;
+namespace quoma\core\modules\menu\components\defaultitems\dropdown;
 
 
 use quoma\core\modules\menu\models\MenuItem;

@@ -7,7 +7,7 @@
  */
 ?>
 
-<li class="menu_item" data-type_name="<?php echo $item->classLabel?>" data-children=<?php echo $item->children ? 1 : 0?>>
+<li class="menu_item <?php echo $item->children ? 'dropdown-link' : ''?>" data-type_name="<?php echo $item->classLabel?>" data-children=<?php echo $item->children ? 1 : 0?>>
 
 
     <div class="input-group">

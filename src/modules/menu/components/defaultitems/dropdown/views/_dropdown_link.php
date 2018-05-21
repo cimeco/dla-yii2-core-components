@@ -30,7 +30,7 @@
                     return false;
                 }
 
-                MenuForm.addItem($('#item_label').val(), '#', undefined, "<?php echo addslashes(\common\modules\menu\models\items\DropdownLink::className())?>", "<?php echo \common\modules\menu\models\items\DropdownLink::typeName()?>", 1);
+                MenuForm.addItem($('#item_label').val(), '#', undefined, "<?php echo addslashes(\quoma\core\modules\menu\components\defaultitems\dropdown\DropdownLink::className())?>", "<?php echo \quoma\core\modules\menu\components\defaultitems\dropdown\DropdownLink::typeName()?>", 1);
 
                 bootbox.hideAll();
             })

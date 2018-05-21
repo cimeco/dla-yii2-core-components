@@ -31,9 +31,10 @@
 
     var AbsoluteForm= new function(){
         this.init= function(){
+            alert('Absolute init triggered');
             $('#add-abs-btn').off('click').on('click', function(e){
                 e.preventDefault();
-
+                alert('click triggered');
                 $('#msj').empty();
 
                 if($('#item_label').val() === ''){
@@ -44,7 +45,7 @@
                     $('#msj').append('<div class="alert alert-danger" ><?php  echo Yii::t('app','Url cant be empty')?>"</div>')
                     return false;
                 }
-                MenuForm.addItem($('#item_label').val(), $('#item_url').val(), $('item_target').val(), "<?php echo addslashes(\common\modules\menu\models\items\AbsoluteLink::className())?>", "<?php echo \common\modules\menu\models\items\AbsoluteLink::typeName()?>", false);
+                MenuForm.addItem($('#item_label').val(), $('#item_url').val(), $('item_target').val(), "<?php echo addslashes(\quoma\core\modules\menu\components\defaultitems\absolute\AbsoluteLink::className())?>", "<?php echo \quoma\core\modules\menu\components\defaultitems\absolute\AbsoluteLink::typeName()?>", false);
 
                 bootbox.hideAll();
             })

@@ -1,6 +1,6 @@
 <?php
 
-namespace quoma\core\modules\menu\models\items;
+namespace quoma\core\modules\menu\components\defaultitems\absolute;
 
 use quoma\core\modules\menu\models\MenuItem;
 use Yii;
