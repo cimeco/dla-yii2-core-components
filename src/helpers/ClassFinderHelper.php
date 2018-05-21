@@ -49,7 +49,7 @@ class ClassFinderHelper
             $class = new ReflectionClass($clase);
             if( ($class->isAbstract() && !$excludeAbstract) || ($class->isInterface() && !$excludeInterface) || ($excludeInterface && $excludeAbstract) ) {
                 // Verifico que extienda alguna de las clases pasadas por parametros
-                $extendsImplements = (count($extends)==0 && count($implements));
+                $extendsImplements = (count($extends)==0 && count($implements)==0);
                 foreach($extends as $value) {
                     if($class->isSubclassOf($value)) {
                         $extendsImplements = true;
