@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="menu-index">
 
     <p>
-        <?= UserA::a('<span class="glyphicon glyphicon-plus"></span> '.Yii::t('app','Create Menu'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= UserA::a('<span class="glyphicon glyphicon-plus"></span> '.Yii::t('app','Create Menu'), ['create', 'site_id' => Yii::$app->request->get('site_id')], ['class' => 'btn btn-success']) ?>
     </p>
     <hr/>
     

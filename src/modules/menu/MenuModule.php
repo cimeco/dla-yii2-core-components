@@ -21,6 +21,10 @@ class MenuModule extends QuomaModule
 
     public $itemsPaths= [];
 
+    public $multisite= false;
+
+    public $layout = false;
+
     /**
      * @inheritdoc
      */

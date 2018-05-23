@@ -2,10 +2,12 @@
 
 namespace quoma\core\modules\menu\controllers;
 
+use quoma\core\modules\menu\MenuModule;
 use Yii;
 use quoma\core\modules\menu\models\MenuLocation;
 use quoma\core\modules\menu\models\search\MenuLocationSearch;
 use quoma\core\web\Controller;
+use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -28,8 +30,12 @@ class MenuLocationController extends Controller
      * Lists all MenuLocation models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($site_id= null)
     {
+        if (MenuModule::getInstance()->multisite && empty($site_id)){
+            throw new BadRequestHttpException('site_id is required');
+        }
+
         $searchModel = new MenuLocationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -56,8 +62,12 @@ class MenuLocationController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($site_id= null)
     {
+        if (MenuModule::getInstance()->multisite && empty($site_id)){
+            throw new BadRequestHttpException('site_id is required');
+        }
+
         $model = new MenuLocation();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

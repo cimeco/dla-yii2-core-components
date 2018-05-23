@@ -2,6 +2,7 @@
 
 namespace quoma\core\modules\menu\models;
 
+use quoma\core\modules\menu\MenuModule;
 use Yii;
 
 /**
@@ -31,7 +32,7 @@ class MenuLocation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'slug'], 'required'],
+            [['name', 'description'], 'required'],
             [['menu_id'], 'integer'],
             [['name'], 'string', 'max' => 45],
             [['description'], 'string', 'max' => 255],
@@ -55,14 +56,21 @@ class MenuLocation extends \yii\db\ActiveRecord
     }
     
     public function behaviors() {
-        return array_merge(parent::behaviors(), [
-            [
-                'class' => \yii\behaviors\SluggableBehavior::className(),
-                'attribute' => 'name',
-                'slugAttribute' => 'slug',
-                'ensureUnique' => true,
-                'immutable' => true
-            ],
+        $sluggable_config= [
+            'class'=> \yii\behaviors\SluggableBehavior::className(),
+            'attribute' => 'name',
+            'slugAttribute' => 'slug',
+            'ensureUnique' => true,
+            'immutable' => true
+        ];
+
+        if (MenuModule::getInstance()->multisite){
+            $sluggable_config['ensureUnique']= false;
+        }
+
+        return array_merge (parent::behaviors(), [
+            $sluggable_config,
+
         ]);
     }
 

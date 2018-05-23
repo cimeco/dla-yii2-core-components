@@ -3,6 +3,7 @@
 namespace quoma\core\modules\menu\models;
 
 use quoma\core\modules\menu\components\MenuItemFactory;
+use quoma\core\modules\menu\MenuModule;
 use Yii;
 
 /**
@@ -12,6 +13,7 @@ use Yii;
  * @property string $name
  * @property string $slug
  * @property string $description
+ * @property integer $site_id
  * 
  *
  * @property MenuItem[] $menuItems
@@ -37,7 +39,7 @@ class Menu extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'slug', 'description'], 'required'],
+            [['name', 'description'], 'required'],
             [['items'], 'safe'],
             [['name', 'slug'], 'string', 'max' => 45],
             [['description'], 'string', 'max' => 255],
@@ -58,14 +60,22 @@ class Menu extends \yii\db\ActiveRecord
     }
 
     public function behaviors() {
+
+        $sluggable_config= [
+            'class'=> \yii\behaviors\SluggableBehavior::className(),
+            'attribute' => 'name',
+            'slugAttribute' => 'slug',
+            'ensureUnique' => true,
+            'immutable' => true
+        ];
+
+        if (MenuModule::getInstance()->multisite){
+            $sluggable_config['ensureUnique']= false;
+        }
+
         return array_merge (parent::behaviors(), [
-            [
-                'class'=> \yii\behaviors\SluggableBehavior::className(),
-                'attribute' => 'name',
-                'slugAttribute' => 'slug',
-                'ensureUnique' => true,
-                'immutable' => true
-            ],            
+            $sluggable_config,
+
         ]);
     }
     /**
@@ -135,40 +145,24 @@ class Menu extends \yii\db\ActiveRecord
         return true;
     }
     
-    /**
-     * Renderiza el menu para ser mostrado en la vista y formulario de backend
-     * @param type $sub
-     * @param type $parent
-     * @return string
-     */
-    public function renderForBack($sub= false, $parent= null){
-        $menu = '<ul '. (!$sub ? 'id="menu-preview"': '').' class="navbar">';
-        $items = \common\modules\menu\components\MenuItemFactory::findAllInstance(['menu_id' => $this->menu_id, 'parent_id' => null]);
-        $position= 1;
-        if (!empty($items)) {
-            foreach ($items as $item){
-                $itemInfo= $item->renderForBack($position, $sub, $parent);
-                $position = $itemInfo['pos'];
-                $menu .= $itemInfo['item'];            
-            }
-        }
-        
-        $menu .= '</ul>';
-        
-        return $menu;
-    }
-    
+
     /**
      * Renderiza el menu para ser mostrado en frontend
      * @return string
      */
     public function render($sub= false){
-        if (Yii::$app->cache->get('menu-'.$this->slug)) {
-            return Yii::$app->cache->get('menu-'.$this->slug);
+        if (MenuModule::getInstance()->multisite){
+            $cache_key= 'menu-'.$this->slug. '-'.$this->site_id;
+        }else{
+            $cache_key= 'menu-'.$this->slug;
+        }
+
+        if (Yii::$app->cache->get($cache_key)) {
+            return Yii::$app->cache->get($cache_key);
         }
         
         $menu= $sub ? '<ul class="dropdown-menu">' :'<ul>';
-        $items = \common\modules\menu\components\MenuItemFactory::findAllInstance(['menu_id' => $this->menu_id, 'parent_id' => null]);
+        $items = \quoma\core\modules\menu\components\MenuItemFactory::findAllInstance(['menu_id' => $this->menu_id, 'parent_id' => null]);
         
         foreach ($items as $key => $item) {
             $menu .= $item->renderItem(($key + 1), 0);
@@ -176,7 +170,7 @@ class Menu extends \yii\db\ActiveRecord
         
         $menu .= '</ul>';
         
-        Yii::$app->cache->set('menu-'. $this->slug, $menu, 86400 );
+        Yii::$app->cache->set($cache_key, $menu, 86400 );
         
         return $menu;
     }

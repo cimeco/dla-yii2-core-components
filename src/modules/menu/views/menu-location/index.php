@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use common\components\helpers\UserA;
+use quoma\core\helpers\UserA;
 
 /* @var $this yii\web\View */
 /* @var $searchModel quoma\core\modules\menu\models\search\MenuLocationSearch */

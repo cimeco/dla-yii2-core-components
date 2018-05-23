@@ -64,7 +64,8 @@ class MenuSearch extends Menu
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['site_id' => $this->site_id]);
 
         return $dataProvider;
     }
