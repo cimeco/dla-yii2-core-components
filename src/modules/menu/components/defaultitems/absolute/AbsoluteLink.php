@@ -20,10 +20,6 @@ class AbsoluteLink extends MenuItem {
         return Yii::t('app','Absolute Link');
     }
 
-    public function getClassLabel(){
-        return self::typeName();
-    }
-
     public static function hasChildren(){
         return false;
     }

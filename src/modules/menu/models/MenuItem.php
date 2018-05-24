@@ -257,6 +257,10 @@ class MenuItem extends ActiveRecord
         return $this->url;
     }
 
+    public function getClassLabel(){
+        return static::typeName();
+    }
+
 
 
 }

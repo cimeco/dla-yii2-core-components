@@ -24,7 +24,7 @@ class MenuLocationController extends ModuleController
      */
     public function actionIndex($site_id= null)
     {
-        if (MenuModule::getInstance()->multisite && empty($site_id)){
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required && empty($site_id)){
             throw new BadRequestHttpException('site_id is required');
         }
 
@@ -46,9 +46,9 @@ class MenuLocationController extends ModuleController
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id, $site_id)
+    public function actionView($id, $site_id= null )
     {
-        if (MenuModule::getInstance()->multisite && empty($site_id)){
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required && empty($site_id)){
             throw new BadRequestHttpException('site_id is required');
         }
 
@@ -68,7 +68,7 @@ class MenuLocationController extends ModuleController
      */
     public function actionCreate($site_id= null)
     {
-        if (MenuModule::getInstance()->multisite && empty($site_id)){
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required && empty($site_id)){
             throw new BadRequestHttpException('site_id is required');
         }
 
@@ -93,9 +93,9 @@ class MenuLocationController extends ModuleController
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id, $site_id)
+    public function actionUpdate($id, $site_id= null )
     {
-        if (MenuModule::getInstance()->multisite && empty($site_id)){
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required && empty($site_id)){
             throw new BadRequestHttpException('site_id is required');
         }
 
@@ -122,7 +122,7 @@ class MenuLocationController extends ModuleController
      */
     public function actionDelete($id, $site_id)
     {
-        if (MenuModule::getInstance()->multisite && empty($site_id)){
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required && empty($site_id)){
             throw new BadRequestHttpException('site_id is required');
         }
 

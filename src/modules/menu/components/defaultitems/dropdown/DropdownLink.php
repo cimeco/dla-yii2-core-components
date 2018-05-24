@@ -28,9 +28,6 @@ class DropdownLink extends MenuItem
         return false;
     }
 
-    public function getClassLabel(){
-        return self::typeName();
-    }
 
     public static function hasChildren(){
         return true;
