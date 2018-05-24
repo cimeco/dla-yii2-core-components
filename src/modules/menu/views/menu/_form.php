@@ -1,7 +1,7 @@
 <?php
 use yii\bootstrap\ActiveForm;
 
-\backend\assets\BootboxAsset::register($this);
+\quoma\core\assets\bootbox\BootboxAsset::register($this);
 \yii\jui\JuiAsset::register($this);
 ?>
 
@@ -30,6 +30,7 @@ use yii\bootstrap\ActiveForm;
     }
 
     .menu-preview {
+        list-style: none;
         padding-bottom: 15px;
         width: 100%;
     }
@@ -66,7 +67,7 @@ use yii\bootstrap\ActiveForm;
                         <div class="panel-body">
 
                             <div class="item_types" style="text-align: center">
-                                <ul>
+                                <ul style="list-style: none">
                                     <?php foreach ($item_types as $type):?>
                                         <li>
                                             <?php echo \yii\bootstrap\Html::button('<span class="glyphicon glyphicon-plus"></span> '. Yii::t('app','Add'). ' '.$type['name'], [

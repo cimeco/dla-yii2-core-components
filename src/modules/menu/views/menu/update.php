@@ -12,6 +12,10 @@ $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="menu-update">
 
+    <?php if (\quoma\core\modules\menu\MenuModule::getInstance()->show_view_title):?>
+        <h1><?php echo $this->title?></h1>
+    <?php endif;?>
+
     <?= $this->render('_form', [
         'model' => $model,
         'item_types' => $item_types

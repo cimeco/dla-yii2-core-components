@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use common\components\helpers\UserA;
+use quoma\core\helpers\UserA;
 
 /* @var $this yii\web\View */
 /* @var $model quoma\core\modules\menu\models\Menu */
@@ -13,6 +13,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="menu-view menu_form">
+
+    <?php if (\quoma\core\modules\menu\MenuModule::getInstance()->show_view_title):?>
+        <h1><?php echo $this->title?></h1>
+    <?php endif;?>
 
     <p>
         <?= UserA::a('<span class="glyphicon glyphicon-pencil"></span> '.Yii::t('app', 'Update'), ['update', 'id' => $model->menu_id], ['class' => 'btn btn-primary']) ?>

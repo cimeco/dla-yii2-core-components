@@ -13,8 +13,13 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="menu-index">
 
+    <?php if (\quoma\core\modules\menu\MenuModule::getInstance()->show_view_title):?>
+        <h1><?php echo $this->title?></h1>
+    <?php endif;?>
+
+
     <p>
-        <?= UserA::a('<span class="glyphicon glyphicon-plus"></span> '.Yii::t('app','Create Menu'), ['create', 'site_id' => Yii::$app->request->get('site_id')], ['class' => 'btn btn-success']) ?>
+        <?= UserA::a('<span class="glyphicon glyphicon-plus"></span> '.Yii::t('app','Create Menu'), ['create', 'site_id' => $this->context->website ? $this->context->website->website_id : null ], ['class' => 'btn btn-success']) ?>
     </p>
     <hr/>
     
@@ -27,7 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'slug',
             'description',
 
-            ['class' => 'quoma\core\grid\ActionColumn'],
+            [
+                'class' => 'quoma\core\grid\ActionColumn',
+                'buttons' => [
+                    'view' => function($url, $model){
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view', 'id' => $model->menu_id, 'site_id' => $this->context->website ? $this->context->website->website_id : null], ['class' => 'btn btn-info']);
+                    },
+                    'update' => function($url, $model){
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update', 'id' => $model->menu_id, 'site_id' => $this->context->website ? $this->context->website->website_id : null], ['class' => 'btn btn-primary']);
+                    },
+                    'delete' => function($url, $model){
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->menu_id, 'site_id' => $this->context->website ? $this->context->website->website_id : null], ['class' => 'btn btn-danger']);
+                    },
+                ]
+            ],
         ],
     ]); ?>
 </div>

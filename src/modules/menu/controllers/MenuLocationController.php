@@ -6,7 +6,7 @@ use quoma\core\modules\menu\MenuModule;
 use Yii;
 use quoma\core\modules\menu\models\MenuLocation;
 use quoma\core\modules\menu\models\search\MenuLocationSearch;
-use quoma\core\web\Controller;
+use quoma\core\modules\menu\components\Controller as ModuleController;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,17 +14,9 @@ use yii\filters\VerbFilter;
 /**
  * MenuController implements the CRUD actions for MenuLocation model.
  */
-class MenuLocationController extends Controller
+class MenuLocationController extends ModuleController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return array_merge(parent::behaviors(), [
-            
-        ]);
-    }
+
 
     /**
      * Lists all MenuLocation models.
@@ -34,6 +26,10 @@ class MenuLocationController extends Controller
     {
         if (MenuModule::getInstance()->multisite && empty($site_id)){
             throw new BadRequestHttpException('site_id is required');
+        }
+
+        if (MenuModule::getInstance()->multisite){
+            $this->setWebsite($site_id);
         }
 
         $searchModel = new MenuLocationSearch();
@@ -50,8 +46,16 @@ class MenuLocationController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($id, $site_id)
     {
+        if (MenuModule::getInstance()->multisite && empty($site_id)){
+            throw new BadRequestHttpException('site_id is required');
+        }
+
+        if (MenuModule::getInstance()->multisite){
+            $this->setWebsite($site_id);
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -68,10 +72,14 @@ class MenuLocationController extends Controller
             throw new BadRequestHttpException('site_id is required');
         }
 
-        $model = new MenuLocation();
+        if (MenuModule::getInstance()->multisite){
+            $this->setWebsite($site_id);
+        }
 
+        $model = new MenuLocation();
+        $model->site_id= $site_id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->menu_location_id]);
+            return $this->redirect(['view', 'id' => $model->menu_location_id, 'site_id' => $site_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -85,12 +93,20 @@ class MenuLocationController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $site_id)
     {
+        if (MenuModule::getInstance()->multisite && empty($site_id)){
+            throw new BadRequestHttpException('site_id is required');
+        }
+
+        if (MenuModule::getInstance()->multisite){
+            $this->setWebsite($site_id);
+        }
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->menu_location_id]);
+            return $this->redirect(['view', 'id' => $model->menu_location_id, 'site_id' => $site_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -104,11 +120,18 @@ class MenuLocationController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $site_id)
     {
+        if (MenuModule::getInstance()->multisite && empty($site_id)){
+            throw new BadRequestHttpException('site_id is required');
+        }
+
+        if (MenuModule::getInstance()->multisite){
+            $this->setWebsite($site_id);
+        }
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'site_id' => $site_id]);
     }
 
     /**

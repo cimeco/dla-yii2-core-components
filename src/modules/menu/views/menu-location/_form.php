@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'menu_id')->widget(\kartik\select2\Select2::className(), [
-        'data' => yii\helpers\ArrayHelper::map(common\modules\menu\models\Menu::find()->all(), 'menu_id', 'name'),
+        'data' => yii\helpers\ArrayHelper::map(quoma\core\modules\menu\models\Menu::find()->all(), 'menu_id', 'name'),
         'language' => Yii::$app->language,
         'options' => ['placeholder' => Yii::t('app', 'Select an option...')],
         'pluginOptions' => ['allowClear' => true]

@@ -69,7 +69,7 @@ class Menu extends \yii\db\ActiveRecord
             'immutable' => true
         ];
 
-        if (MenuModule::getInstance()->multisite){
+        if (MenuModule::getInstance() && MenuModule::getInstance()->multisite){
             $sluggable_config['ensureUnique']= false;
         }
 
@@ -113,7 +113,7 @@ class Menu extends \yii\db\ActiveRecord
         $this->_saveItems = true;
         //MenuItem::preorderTree($this->menu_id);
         
-        if (!$insert) {
+        if (!$insert && Yii::$app->cache) {
             Yii::$app->cache->delete('menu-'.$this->slug);// solo al actualizar mato la posible cache del menu
         }
         
@@ -150,8 +150,8 @@ class Menu extends \yii\db\ActiveRecord
      * Renderiza el menu para ser mostrado en frontend
      * @return string
      */
-    public function render($sub= false){
-        if (MenuModule::getInstance()->multisite){
+    public function render($sub= false, $menu_class= null){
+        if (MenuModule::getInstance() && MenuModule::getInstance()->multisite){
             $cache_key= 'menu-'.$this->slug. '-'.$this->site_id;
         }else{
             $cache_key= 'menu-'.$this->slug;
@@ -161,7 +161,7 @@ class Menu extends \yii\db\ActiveRecord
             return Yii::$app->cache->get($cache_key);
         }
         
-        $menu= $sub ? '<ul class="dropdown-menu">' :'<ul>';
+        $menu= $sub ? '<ul class="dropdown-menu">' :'<ul class="'.$menu_class.'">';
         $items = \quoma\core\modules\menu\components\MenuItemFactory::findAllInstance(['menu_id' => $this->menu_id, 'parent_id' => null]);
         
         foreach ($items as $key => $item) {
@@ -169,9 +169,11 @@ class Menu extends \yii\db\ActiveRecord
         }
         
         $menu .= '</ul>';
-        
-        Yii::$app->cache->set($cache_key, $menu, 86400 );
-        
+
+        if (Yii::$app->cache){
+            Yii::$app->cache->set($cache_key, $menu, 86400 );
+        }
+
         return $menu;
     }
 

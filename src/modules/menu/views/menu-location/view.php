@@ -13,6 +13,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="menu-location-view">
 
+    <?php if (\quoma\core\modules\menu\MenuModule::getInstance()->show_view_title):?>
+        <h1><?php echo $this->title?></h1>
+    <?php endif;?>
+
     <p>
         <?= UserA::a('<span class="glyphicon glyphicon-pencil"></span> '.Yii::t('app','Update'), ['update', 'id' => $model->menu_location_id], ['class' => 'btn btn-primary']) ?>
         <?= UserA::a('<span class="glyphicon glyphicon-trash"></span> '.Yii::t('app','Delete'), ['delete', 'id' => $model->menu_location_id], [

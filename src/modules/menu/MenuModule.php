@@ -19,11 +19,19 @@ class MenuModule extends QuomaModule
         '@menu/components/defaultitems/dropdown'
     ];
 
+    public $extraBehaviors= [];
+
     public $itemsPaths= [];
 
     public $multisite= false;
 
-    public $layout = false;
+    public $site_required= true;
+
+    public $use_user_module= true;
+
+    public $redirect_view = 'view';
+
+    public $show_view_title= true;
 
     /**
      * @inheritdoc

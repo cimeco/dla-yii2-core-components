@@ -13,6 +13,7 @@ use Yii;
  * @property string $description
  * @property string $slug
  * @property integer $menu_id
+ * @property integer $site_id
  *
  * @property Menu $menu
  */
@@ -33,7 +34,7 @@ class MenuLocation extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'description'], 'required'],
-            [['menu_id'], 'integer'],
+            [['menu_id', 'site_id'], 'integer'],
             [['name'], 'string', 'max' => 45],
             [['description'], 'string', 'max' => 255],
             [['slug'], 'string', 'max' => 55],
@@ -64,7 +65,7 @@ class MenuLocation extends \yii\db\ActiveRecord
             'immutable' => true
         ];
 
-        if (MenuModule::getInstance()->multisite){
+        if (!empty(MenuModule::getInstance()) && MenuModule::getInstance()->multisite){
             $sluggable_config['ensureUnique']= false;
         }
 

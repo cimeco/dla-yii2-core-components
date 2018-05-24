@@ -12,6 +12,10 @@ $this->params['breadcrumbs'][] = Yii::t('app','Update');
 ?>
 <div class="menu-location-update">
 
+    <?php if (\quoma\core\modules\menu\MenuModule::getInstance()->show_view_title):?>
+        <h1><?php echo $this->title?></h1>
+    <?php endif;?>
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

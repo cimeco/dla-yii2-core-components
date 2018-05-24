@@ -6,25 +6,17 @@ use quoma\core\modules\menu\MenuModule;
 use Yii;
 use quoma\core\modules\menu\models\Menu;
 use quoma\core\modules\menu\models\search\MenuSearch;
-use quoma\core\web\Controller;
+use quoma\core\modules\menu\components\Controller as ModuleController;
 use yii\helpers\ArrayHelper;
+use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
  */
-class MenuController extends Controller
+class MenuController extends ModuleController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return array_merge(parent::behaviors(), [
-            
-        ]);
-    }
 
     /**
      * Lists all Menu models.
@@ -32,8 +24,12 @@ class MenuController extends Controller
      */
     public function actionIndex($site_id= null)
     {
-        if (MenuModule::getInstance()->multisite && empty($site_id)){
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required && empty($site_id)){
             throw new BadRequestHttpException('site_id is required');
+        }
+
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required){
+            $this->setWebsite($site_id);
         }
         $searchModel = new MenuSearch();
         $searchModel->site_id= $site_id;
@@ -51,8 +47,16 @@ class MenuController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($id, $site_id= null)
     {
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required && empty($site_id)){
+            throw new BadRequestHttpException('site_id is required');
+        }
+
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required){
+            $this->setWebsite($site_id);
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -69,10 +73,14 @@ class MenuController extends Controller
             throw new BadRequestHttpException('site_id is required');
         }
 
+        if (MenuModule::getInstance()->multisite){
+            $this->setWebsite($site_id);
+        }
+
         $model = new Menu();
         $model->site_id= $site_id;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->menu_id]);
+            return $this->redirect(['view', 'id' => $model->menu_id, 'site_id' => $site_id]);
         } else {
             $item_types= \quoma\core\modules\menu\models\MenuItem::getTypes();
             return $this->render('create', [
@@ -88,8 +96,17 @@ class MenuController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $site_id = null)
     {
+
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required && empty($site_id)){
+            throw new BadRequestHttpException('site_id is required');
+        }
+
+        if (MenuModule::getInstance()->multisite && MenuModule::getInstance()->site_required){
+            $this->setWebsite($site_id);
+        }
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -100,7 +117,8 @@ class MenuController extends Controller
             if (!$model->_saveItems) {
                 $model->saveItems();
             }
-            return $this->redirect(['view', 'id' => $model->menu_id]);
+            Yii::$app->session->addFlash('success', Yii::t('app','Menu Saved successfull'));
+            return $this->redirect([MenuModule::getInstance()->redirect_view, 'id' => $model->menu_id, 'site_id' => $site_id]);
         } else {
             $item_types= \quoma\core\modules\menu\models\MenuItem::getTypes();
             return $this->render('update', [
@@ -116,11 +134,19 @@ class MenuController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $site_id= null)
     {
+        if (MenuModule::getInstance()->multisite && empty($site_id)){
+            throw new BadRequestHttpException('site_id is required');
+        }
+
+        if (MenuModule::getInstance()->multisite){
+            $this->setWebsite($site_id);
+        }
+
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index', 'site_id' => $site_id]);
     }
 
     /**
@@ -163,7 +189,7 @@ class MenuController extends Controller
             return $this->redirect(['view', 'id' => $clone->menu_id]);
         }else{
             $originMenu= $this->findModel($id);
-            $item_types= \common\modules\menu\models\MenuItem::getTypes();
+            $item_types= \quoma\core\modules\menu\models\MenuItem::getTypes();
             return $this->render('clone', ['clone'=> $clone, 'origin' => $originMenu, 'item_types' => $item_types]);
         }
         
