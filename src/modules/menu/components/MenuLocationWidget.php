@@ -22,6 +22,12 @@ class MenuLocationWidget extends Widget {
     public $site_id;
     
     public $menu_class;
+
+    public $item_class;
+
+    public $anchor_class;
+
+    public $child_class;
     
     public function run(){
         // Busco el MenuLocation por el slug recibido 
@@ -32,13 +38,16 @@ class MenuLocationWidget extends Widget {
             $location= new MenuLocation();
             $location->name= $this->name;
             $location->description = $this->description;
+            $location->slug= $this->slug;
             $location->site_id= $this->site_id;
-            
+
+            $location->scenario= 'front-save';
+
             if (!$location->save() && YII_ENV === 'dev') {
                 return '<div class="alert alert-warning">No se pudo crear la ubicación de menu '.  $this->name . '</div>';
             }
         }
         
-        return '<div class ="'. $this->slug .'_menu_location">' . (!empty($location->menu) ? $location->menu->render(false, $this->menu_class): '') . '</div>';
+        return '<div class ="'. $this->slug .'_menu_location">' . (!empty($location->menu) ? $location->menu->render(false, $this->menu_class, $this->item_class, $this->anchor_class, $this->child_class): '') . '</div>';
     }
 }

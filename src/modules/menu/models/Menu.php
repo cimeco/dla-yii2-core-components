@@ -150,7 +150,7 @@ class Menu extends \yii\db\ActiveRecord
      * Renderiza el menu para ser mostrado en frontend
      * @return string
      */
-    public function render($sub= false, $menu_class= null){
+    public function render($sub= false, $menu_class= null, $item_class= null, $anchor_class= null, $child_class= null){
         if (MenuModule::getInstance() && MenuModule::getInstance()->multisite){
             $cache_key= 'menu-'.$this->slug. '-'.$this->site_id;
         }else{
@@ -165,7 +165,7 @@ class Menu extends \yii\db\ActiveRecord
         $items = \quoma\core\modules\menu\components\MenuItemFactory::findAllInstance(['menu_id' => $this->menu_id, 'parent_id' => null]);
         
         foreach ($items as $key => $item) {
-            $menu .= $item->renderItem(($key + 1), 0);
+            $menu .= $item->renderItem(($key + 1), 0, $item_class, $anchor_class, $child_class);
         }
         
         $menu .= '</ul>';

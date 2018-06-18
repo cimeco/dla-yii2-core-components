@@ -230,21 +230,21 @@ class MenuItem extends ActiveRecord
      * Renderiza el item para el frontend
      * @return string
      */
-    public function renderItem($position, $parent_pos= ''){
-        $target= $this->target !== null ? ' target="'.$this->target.'"' : '';
+    public function renderItem($position, $parent_pos= '', $item_class= null, $anchor_class= null, $child_class= null){
+        $target= $this->target !== null ? ' target="'.$this->target.'"' : '_self';
         if(count($this->children) > 0){
 
-            $item= '<li class="dropdown">'
-                . '<a class ="dropdown-toggle" href="'.$this->createUrl().'"'
+            $item= '<li class="'.$item_class.' dropdown">'
+                . '<a class ="'.$anchor_class.' dropdown-toggle" href="'.$this->createUrl().'"'
                 . ' data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"'. $target .'>'.$this->label.'</a>';
 
             $item .= '<ul class="dropdown-menu dropdown-menu-right">';
             foreach ($this->children as $key => $child){
-                $item.= $child->renderItem(($key + 1), $position);
+                $item.= $child->renderItem(($key + 1), $position, $child_class, $anchor_class);
             }
             $item.= '</ul>';
         }else{
-            $item= '<li><a href="'.$this->createUrl().'"'. $target. '>'.$this->label.'</a>';
+            $item= '<li class="'.$item_class.'" ><a class ="'.$anchor_class.'" href="'.$this->createUrl().'"'. $target. '>'.$this->label.'</a>';
 
         }
 

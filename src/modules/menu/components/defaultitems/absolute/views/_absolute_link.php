@@ -31,7 +31,6 @@
 
     var AbsoluteForm= new function(){
         this.init= function(){
-            alert('Absolute init triggered');
             $('#add-abs-btn').off('click').on('click', function(e){
                 e.preventDefault();
                 alert('click triggered');

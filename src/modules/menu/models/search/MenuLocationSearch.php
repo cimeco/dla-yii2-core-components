@@ -61,6 +61,7 @@ class MenuLocationSearch extends MenuLocation
         $query->andFilterWhere([
             'menu_location_id' => $this->menu_location_id,
             'menu_id' => $this->menu_id,
+            'site_id' => $this->site_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

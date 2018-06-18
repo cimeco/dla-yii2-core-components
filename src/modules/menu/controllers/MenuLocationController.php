@@ -33,6 +33,7 @@ class MenuLocationController extends ModuleController
         }
 
         $searchModel = new MenuLocationSearch();
+        $searchModel->site_id= $site_id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

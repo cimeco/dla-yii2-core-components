@@ -32,14 +32,21 @@ class MenuLocation extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [
-            [['name', 'description'], 'required'],
+        $rules= [
+            [['name', 'description'], 'required', 'on' => 'default'],
+            [['name', 'description', 'slug'], 'required', 'on' => 'front-save'],
             [['menu_id', 'site_id'], 'integer'],
             [['name'], 'string', 'max' => 45],
             [['description'], 'string', 'max' => 255],
             [['slug'], 'string', 'max' => 55],
             [['menu_id'], 'exist', 'skipOnError' => true, 'targetClass' => Menu::className(), 'targetAttribute' => ['menu_id' => 'menu_id']],
         ];
+
+        if (MenuModule::getInstance() && MenuModule::getInstance()->multisite){
+            $rules[]= [['site_id'], 'required'];
+        }
+
+        return $rules;
     }
 
     /**
@@ -69,6 +76,9 @@ class MenuLocation extends \yii\db\ActiveRecord
             $sluggable_config['ensureUnique']= false;
         }
 
+        if ($this->scenario === 'front-save'){
+            return parent::behaviors();
+        }
         return array_merge (parent::behaviors(), [
             $sluggable_config,
 
