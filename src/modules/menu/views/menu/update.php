@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model quoma\core\modules\menu\models\Menu */
 
-$this->title = 'Update Menu: ' . $model->name;
+$this->title = Yii::t('app', 'Update {modelClass}: ', ['modelClass' => Yii::t('app', 'Menu')]) . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Menus', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->menu_id]];
 $this->params['breadcrumbs'][] = 'Update';

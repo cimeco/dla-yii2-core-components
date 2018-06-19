@@ -52,10 +52,10 @@ class Menu extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'menu_id' => 'Menu ID',
-            'name' => 'Name',
-            'slug' => 'Slug',
-            'description' => 'Description',
+            'menu_id' => Yii::t('app','ID'),
+            'name' => Yii::t('app','Name'),
+            'slug' => Yii::t('app','Slug'),
+            'description' => Yii::t('app','Description'),
         ];
     }
 

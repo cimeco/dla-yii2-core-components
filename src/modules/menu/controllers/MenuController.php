@@ -117,7 +117,7 @@ class MenuController extends ModuleController
             if (!$model->_saveItems) {
                 $model->saveItems();
             }
-            Yii::$app->session->addFlash('success', Yii::t('app','Menu Saved successfull'));
+            Yii::$app->session->addFlash('success', Yii::t('app','Menu saved successfully!'));
             return $this->redirect([MenuModule::getInstance()->redirect_view, 'id' => $model->menu_id, 'site_id' => $site_id]);
         } else {
             $item_types= \quoma\core\modules\menu\models\MenuItem::getTypes();
