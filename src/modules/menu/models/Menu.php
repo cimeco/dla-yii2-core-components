@@ -171,7 +171,7 @@ class Menu extends \yii\db\ActiveRecord
         $menu .= '</ul>';
 
         if (Yii::$app->cache){
-            Yii::$app->cache->set($cache_key, $menu, 86400 );
+            Yii::$app->cache->set($cache_key, $menu, 60);
         }
 
         return $menu;

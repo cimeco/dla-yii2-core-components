@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr>
    <div class="row">
 
-        <div class="col-lg-1 col-lg-offset-5">
+        <div class="col-lg-12">
             <ul style="list-style: disc !important;">
                 <?php foreach ($model->children as $item):?>
                     <li style="list-style: disc !important;">
