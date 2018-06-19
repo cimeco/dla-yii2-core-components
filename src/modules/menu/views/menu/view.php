@@ -19,8 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif;?>
 
     <p>
-        <?= UserA::a('<span class="glyphicon glyphicon-pencil"></span> '.Yii::t('app', 'Update'), ['update', 'id' => $model->menu_id], ['class' => 'btn btn-primary']) ?>
-        <?= UserA::a('<span class="glyphicon glyphicon-trash"></span> '.Yii::t('app', 'Delete'), ['delete', 'id' => $model->menu_id], [
+        <?= UserA::a('<span class="glyphicon glyphicon-pencil"></span> '.Yii::t('app', 'Update'), ['update', 'id' => $model->menu_id, 'site_id' => $model->site_id], ['class' => 'btn btn-primary']) ?>
+        <?= UserA::a('<span class="glyphicon glyphicon-trash"></span> '.Yii::t('app', 'Delete'), ['delete', 'id' => $model->menu_id, 'site_id' => $model->site_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
         <span class="btn-separator"></span>
-        <?= UserA::a('<span class="glyphicon glyphicon-export"></span> '.Yii::t('app', 'Clone'), ['clone', 'id' => $model->menu_id], ['class' => 'btn btn-warning']) ?>
+        <?= UserA::a('<span class="glyphicon glyphicon-export"></span> '.Yii::t('app', 'Clone'), ['clone', 'id' => $model->menu_id, 'site_id' => $model->site_id], ['class' => 'btn btn-warning']) ?>
     </p>
     <hr/>
 

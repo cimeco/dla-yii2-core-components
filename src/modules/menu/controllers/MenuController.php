@@ -181,7 +181,11 @@ class MenuController extends ModuleController
     }
 
     
-    public function actionClone($id){        
+    public function actionClone($id, $site_id = null){
+
+        if (MenuModule::getInstance()->multisite){
+            $this->setWebsite($site_id);
+        }
         
         $clone= new Menu();
         
