@@ -33,7 +33,6 @@
         this.init= function(){
             $('#add-abs-btn').off('click').on('click', function(e){
                 e.preventDefault();
-                alert('click triggered');
                 $('#msj').empty();
 
                 if($('#item_label').val() === ''){
