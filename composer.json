@@ -12,7 +12,9 @@
     ],
 
     "require": {
-        "yiisoft/yii2": "~2.0.0"
+        "yiisoft/yii2": "~2.0.0",
+        "defuse/php-encryption": "^2.2",
+        "webvimark/module-user-management": "^1.0"
     },
 
     "autoload": {

@@ -56,4 +56,63 @@ class ActiveRecord extends \yii\db\ActiveRecord {
         return $result;
     }
     
+    /**
+     * Devuelve una lista de attributos de tipo date o datetime:
+     * 
+     *  [
+     *      'date_attr' => 'date',
+     *      'other_date_attr' => 'date',
+     *      'datetime_attr' => 'datetime'
+     *  ]
+     *  
+     * @return type
+     */
+    public function getDateAttributes()
+    {
+        return [];
+    }
+    
+    public function beforeSave($insert) {
+        if(parent::beforeSave($insert)){
+            foreach($this->getDateAttributes() as $dateAttr => $type){
+                $formatter = \quoma\core\helpers\DateFormatter::getInstance();
+                
+                if($type == 'date'){
+                    $this->$dateAttr = $formatter->dbDateFormat($this->$dateAttr);
+                }else{
+                    $this->$dateAttr = $formatter->dbDatetimeFormat($this->$dateAttr);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+        
+        foreach($this->getDateAttributes() as $dateAttr => $type){
+            $formatter = \quoma\core\helpers\DateFormatter::getInstance();
+
+            if($type == 'date'){
+                $this->$dateAttr = $formatter->hDateFormat($this->$dateAttr);
+            }else{
+                $this->$dateAttr = $formatter->hDatetimeFormat($this->$dateAttr);
+            }
+        }
+    }
+    
+    public function afterFind() {
+        parent::afterFind();
+        
+        foreach($this->getDateAttributes() as $dateAttr => $type){
+            $formatter = \quoma\core\helpers\DateFormatter::getInstance();
+
+            if($type == 'date'){
+                $this->$dateAttr = $formatter->hDateFormat($this->$dateAttr);
+            }else{
+                $this->$dateAttr = $formatter->hDatetimeFormat($this->$dateAttr);
+            }
+        }
+    }
 }
