@@ -15,7 +15,9 @@ class m160811_203137_pdf_service_config extends Migration
         $category= \quoma\modules\config\models\Category::findOne(['name' => 'General']);
 
         if(!$category){
-            throw new \yii\console\Exception('Category not found.');
+            $category= new \quoma\modules\config\models\Category(['name' => 'General', 'status' => 'enabled']);
+
+            $category->save();
         }
 
         $this->insert('item', [
