@@ -108,10 +108,13 @@ class ActiveRecord extends \yii\db\ActiveRecord {
         foreach($this->getDateAttributes() as $dateAttr => $type){
             $formatter = \quoma\core\helpers\DateFormatter::getInstance();
 
-            if($type == 'date'){
-                $this->$dateAttr = $formatter->hDateFormat($this->$dateAttr);
-            }else{
-                $this->$dateAttr = $formatter->hDatetimeFormat($this->$dateAttr);
+            try{
+                if($type == 'date'){
+                    $this->$dateAttr = $formatter->hDateFormat($this->$dateAttr);
+                }else{
+                    $this->$dateAttr = $formatter->hDatetimeFormat($this->$dateAttr);
+                }
+            }catch(\Throwable $e){
             }
         }
     }
