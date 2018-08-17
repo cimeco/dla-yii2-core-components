@@ -16,9 +16,17 @@ class PDFService extends Component
 {
     const LANDSCAPE = 'Landscape';
     const PORTRAIT = 'Portrait';
+
     /* orientation = The orientation of the output document, must be either const LANDSCAPE OR PORTRAIT.
+     * @param array $margins Configuracion de margenes, debe tener la forma
+     *      [
+     *         margin.top => "Xcm"
+     *         margin.right => "Xcm"
+     *         margin.bottom => "Xcm"
+     *         margin.left => "Xcm"
+     *       ]
      */
-    public static function makePdf($view, $orientation = PDFService::PORTRAIT)
+    public static function makePdf($view, $orientation = PDFService::PORTRAIT, $margins = [])
     {
         $url = Config::getValue('wkhtmltopdf_docker_host');
         $port = Config::getValue('wkhtmltopdf_docker_port');
@@ -29,12 +37,12 @@ class PDFService extends Component
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_PORT, $port);
 
-        $data = [
+        $data = array_merge([
             'html' => $view,
             'orientation' => $orientation,
             'options' => array(
             ),
-        ];
+        ], $margins);
 
         $data_str = http_build_query($data);
 
