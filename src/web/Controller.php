@@ -3,6 +3,7 @@
 namespace quoma\core\web;
 
 use yii\filters\VerbFilter;
+use quoma\modules\log\models\Log;
 
 /**
  * Description of Controller
@@ -29,7 +30,7 @@ class Controller extends \yii\web\Controller{
     public function beforeAction($action) {
         if (parent::beforeAction($action)) {
             if(\Yii::$app->hasModule('log')) {
-                quoma\modules\log\models\Log::log();
+                Log::log();
             }
             return true;
         }
