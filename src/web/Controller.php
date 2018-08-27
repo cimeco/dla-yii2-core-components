@@ -10,7 +10,10 @@ use quoma\modules\log\models\Log;
  *
  * @author mmoyano
  */
-class Controller extends \yii\web\Controller{
+class Controller extends \yii\web\Controller
+{
+    
+    public $noLogRoutes = ['site/login', 'log/log/index', 'log/log/view'];
     
     public function behaviors()
     {
@@ -27,9 +30,10 @@ class Controller extends \yii\web\Controller{
         ];
     }
     
-    public function beforeAction($action) {
+    public function beforeAction($action) 
+    {
         if (parent::beforeAction($action)) {
-            if(\Yii::$app->hasModule('log')) {
+            if(\Yii::$app->hasModule('log') && !in_array($this->getRoute(), $this->noLogRoutes)) {
                 Log::log();
             }
             return true;
