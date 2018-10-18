@@ -10,7 +10,24 @@ use yii\filters\VerbFilter;
  * @author mmoyano
  */
 class Controller extends \yii\web\Controller{
-    
+
+    /**
+     * IMPORTANT !!!
+     * Overwrite this method in this way:
+     *
+     * public function behaviors() {
+     *     return array_merge([
+     *         'verbs' => [
+     *             'class' => VerbFilter::className(),
+     *             'actions' => [
+     *                 'delete' => ['post'],
+     *              ],
+     *         ],
+     *     ], parent::behaviors() );
+     * }
+     *
+     * @return array
+     */
     public function behaviors()
     {
         return [
