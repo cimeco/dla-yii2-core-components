@@ -129,7 +129,7 @@ class ActionColumn extends Column
                 return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
                     'title' => Yii::t('yii', 'View'),
                     'data-pjax' => '0',
-                    'class' => 'btn btn-view',
+                    'class' => 'btn btn-info',
                 ]);
             };
         }

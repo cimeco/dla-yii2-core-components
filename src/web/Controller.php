@@ -3,13 +3,16 @@
 namespace quoma\core\web;
 
 use yii\filters\VerbFilter;
+use quoma\modules\log\models\Log;
 
 /**
  * Description of Controller
  *
  * @author mmoyano
  */
-class Controller extends \yii\web\Controller{
+class Controller extends \yii\web\Controller
+{
+    public $noLogRoutes = ['site/login', 'log/log/index', 'log/log/view'];
 
     /**
      * IMPORTANT !!!
@@ -43,10 +46,11 @@ class Controller extends \yii\web\Controller{
         ];
     }
     
-    public function beforeAction($action) {
+    public function beforeAction($action) 
+    {
         if (parent::beforeAction($action)) {
-            if(\Yii::$app->hasModule('log')) {
-                quoma\modules\log\models\Log::log();
+            if(\Yii::$app->hasModule('log') && !in_array($this->getRoute(), $this->noLogRoutes)) {
+                Log::log();
             }
             return true;
         }
