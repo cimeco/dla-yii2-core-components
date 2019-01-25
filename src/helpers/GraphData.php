@@ -7,7 +7,8 @@ namespace quoma\core\helpers;
  *
  * @author mmoyano
  */
-class GraphData extends \yii\base\Object{
+class GraphData extends \yii\base\BaseObject
+{
     
     public $fromdate;
     public $todate;
