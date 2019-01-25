@@ -3,6 +3,7 @@
 namespace quoma\core\helpers;
 
 use Yii;
+use yii\helpers\FormatConverter;
 
 /**
  * Description of DateFormatter
@@ -44,6 +45,7 @@ class DateFormatter extends \yii\base\Component{
         $to = $this->normalizeFormat($to);
         
         $date = \DateTime::createFromFormat($from, $date);
+
         return $date->format($to);
     }
     
@@ -89,10 +91,11 @@ class DateFormatter extends \yii\base\Component{
     
     public function normalizeFormat($format)
     {
+
         if (strncmp($format, 'php:', 4) === 0) {
             $format = substr($format, 4);
-        } else {
-            $format = FormatConverter::convertDateIcuToPhp($format, $type, $this->locale);
+        }else {
+            $format = FormatConverter::convertDateIcuToPhp($format, 'date');
         }
         
         return $format;
