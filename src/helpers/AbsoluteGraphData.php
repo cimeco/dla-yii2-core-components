@@ -5,10 +5,12 @@ namespace quoma\core\helpers;
 /**
  * Description of GraphData
  *
+ * Permite obtener los pasos y los dataset para un chart.
+ * Este componente se debe utilizar para mostrar valores absolutos (no evolución de valores).
+ *
  * @author mmoyano
  */
-class GraphData extends \yii\base\BaseObject
-{
+class AbsoluteGraphData extends \yii\base\Object{
     
     public $fromdate;
     public $todate;
@@ -21,7 +23,6 @@ class GraphData extends \yii\base\BaseObject
     public $idAttribute;
     
     public $colorAttribute;
-    public $labelAttribute;
     
     public $steps;
     
@@ -91,7 +92,6 @@ class GraphData extends \yii\base\BaseObject
         //Separamos productos
         $items = [];
         $colors = [];
-        $labels = [];
         $itemsData = [];
         foreach ($models as $model){
             
@@ -103,17 +103,6 @@ class GraphData extends \yii\base\BaseObject
                 $itemsData[$item_id] = [ $model->{$this->xAttribute} => (float)$model->{$this->yAttribute}];
                 $items[] = $item_id;
                 $colors[$item_id] = $model->{$this->colorAttribute};
-
-                if(isset($this->labelAttribute)){
-                    if(is_callable($this->labelAttribute)) {
-                        $labels[$item_id] = call_user_func($this->labelAttribute, $model);
-                    }else{
-                        $labels[$item_id] = $model->{$this->labelAttribute};
-                    }
-                }else{
-                    $labels[$item_id] = '';
-                }
-
             }
         }
         
@@ -125,16 +114,12 @@ class GraphData extends \yii\base\BaseObject
             
             $data[$item] = [];
             
-            //Ultimo valor valido
-            $lastValue = 0.0;
-            
             foreach($steps as $step){
                 
                 if(isset($itemsData[$item][$step])){
-                    $lastValue = $itemsData[$item][$step];
-                    $data[$item][$step] = $lastValue;
+                    $data[$item][$step] = $itemsData[$item][$step];
                 }else{
-                    $data[$item][$step] = $lastValue;
+                    $data[$item][$step] = 0.0;
                 }
             }
             
@@ -145,12 +130,10 @@ class GraphData extends \yii\base\BaseObject
         foreach($data as $item_id=>$set){
 
             $rgb = $colors[$item_id];
-            $label = $labels[$item_id];
 
             $datasets[] = [
-                'label' => $label,
-                'backgroundColor' => "rgba($rgb,0.5)",
-                'borderColor' => "rgba($rgb,1)",
+                'fillColor' => "rgba($rgb,0.5)",
+                'strokeColor' => "rgba($rgb,1)",
                 'pointColor' => "rgba($rgb,1)",
                 'pointStrokeColor' => "#444",
                 'data' => $set

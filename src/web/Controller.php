@@ -12,9 +12,25 @@ use quoma\modules\log\models\Log;
  */
 class Controller extends \yii\web\Controller
 {
-    
     public $noLogRoutes = ['site/login', 'log/log/index', 'log/log/view'];
-    
+
+    /**
+     * IMPORTANT !!!
+     * Overwrite this method in this way:
+     *
+     * public function behaviors() {
+     *     return array_merge([
+     *         'verbs' => [
+     *             'class' => VerbFilter::className(),
+     *             'actions' => [
+     *                 'delete' => ['post'],
+     *              ],
+     *         ],
+     *     ], parent::behaviors() );
+     * }
+     *
+     * @return array
+     */
     public function behaviors()
     {
         return [
