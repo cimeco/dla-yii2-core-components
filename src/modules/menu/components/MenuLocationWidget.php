@@ -21,7 +21,7 @@ class MenuLocationWidget extends Widget {
 
     public $site_id;
     
-    public $menu_class;
+    public $menu_class = 'nav navbar-nav';
 
     public $item_class;
 
@@ -48,6 +48,6 @@ class MenuLocationWidget extends Widget {
             }
         }
         
-        return '<div class ="'. $this->slug .'_menu_location">' . (!empty($location->menu) ? $location->menu->render(false, $this->menu_class, $this->item_class, $this->anchor_class, $this->child_class): '') . '</div>';
+        return '<div class="'. $this->slug .'_menu_location">' . (!empty($location->menu) ? $location->menu->render(false, $this->menu_class, $this->item_class, $this->anchor_class, $this->child_class): '') . '</div>';
     }
 }
