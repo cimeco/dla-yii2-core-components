@@ -153,7 +153,7 @@ class ActionColumn extends Column
                         'class' => 'btn btn-danger',
                     ]);
                 }else{
-                    return '';
+                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', '#', ['class' => 'btn btn-danger disabled']);
                 }
             };
         }
