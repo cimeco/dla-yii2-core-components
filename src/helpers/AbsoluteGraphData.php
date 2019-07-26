@@ -2,6 +2,8 @@
 
 namespace quoma\core\helpers;
 
+use yii\base\BaseObject;
+
 /**
  * Description of GraphData
  *
@@ -10,7 +12,7 @@ namespace quoma\core\helpers;
  *
  * @author mmoyano
  */
-class AbsoluteGraphData extends \yii\base\Object{
+class AbsoluteGraphData extends BaseObject{
     
     public $fromdate;
     public $todate;
