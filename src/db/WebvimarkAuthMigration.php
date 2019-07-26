@@ -39,8 +39,14 @@ abstract class WebvimarkAuthMigration extends Migration
 
                 Permission::assignRoutes($permissionData['code'], $permissionData['routes'], $permissionData['name'] ?? null, $group->code);
 
+            }
+        }
+
+        //Los hijos se asignan luego de haber creado todos los permisos
+        foreach ($this->permissions() as $groupData){
+            foreach($groupData['permissions'] as $permissionData){
                 if(isset($permissionData['children'])){
-                    Permission::addChildren($permissionData['name'], $permissionData['children'], true);
+                    Permission::addChildren($permissionData['code'], $permissionData['children'], true);
                 }
             }
         }
