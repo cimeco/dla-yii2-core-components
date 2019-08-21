@@ -20,39 +20,7 @@ class MenuItemFactory {
     const SECTION_LINK_TYPE = 'sec';
     const STATIC_PAGE_LINK_TYPE = 'sp';
     const SUB_MENU_TYPE= 'sub';
-    
-    /**
-     * Crea una instancia de la clase del tipo recibido.
-     * @param type $type
-     * @return StaticPageLink
-     */
-    public static function createInstance($type){
-        $instance = null;
-        switch ($type){
-            case self::ABSOLUTE_LINK_TYPE:
-                $instance = new \common\modules\menu\models\items\AbsoluteLink();
-                break;
-            case self::ARTICLE_LINK_TYPE:
-                $instance = new \common\modules\menu\models\items\ArticleLink();
-                break;
-            case self::CATEGORY_LINK_TYPE:
-                $instance =  new \common\modules\menu\models\items\CategoryLink();
-                break;
-            case self::SECTION_LINK_TYPE:
-                $instance = new \common\modules\menu\models\items\SectionLink();
-                break;
-            case self::STATIC_PAGE_LINK_TYPE:
-                $instance = new \common\modules\menu\models\items\StaticPageLink();
-                break;
-            case self::SUB_MENU_TYPE:
-                $instance = new \common\modules\menu\models\items\SubMenu();
-                break;      
-        }
         
-        return $instance;
-        
-    }
-    
     /**
      * Devuelve una instancia de MenuItem. La clase de la instancia la define de acuerdo al campo class de la tabla 
      * @param type $condition

@@ -17,6 +17,7 @@
             <span class="help-block" id='abs-url-help' style="display: none;"><?= Yii::t('app', 'Url can`t be empty')?></span>
             <span class="help-block" id='abs-url-help2' style="display: none;"><?= Yii::t('app', 'Url is invalid')?></span>
         </div>
+        
         <div class="form-group" id="abs-link-group-target">
             <label class="form-label" for="abs-target"><?=  Yii::t('app', 'Open in')?> :</label>
             <input type="radio" name="item_target "value="_self" checked><?php echo Yii::t('app', 'Same Page')?>
@@ -43,7 +44,7 @@
                     $('#msj').append('<div class="alert alert-danger" ><?php  echo Yii::t('app','Url cant be empty')?>"</div>')
                     return false;
                 }
-                MenuForm.addItem($('#item_label').val(), $('#item_url').val(), $('item_target').val(), "<?php echo addslashes(\quoma\core\modules\menu\components\defaultitems\absolute\AbsoluteLink::className())?>", "<?php echo \quoma\core\modules\menu\components\defaultitems\absolute\AbsoluteLink::typeName()?>", false);
+                MenuForm.addItem($('#item_label').val(), $('#item_url').val(), $('[name=item_target]:checked').val(), "<?php echo addslashes(\quoma\core\modules\menu\components\defaultitems\absolute\AbsoluteLink::className())?>", "<?php echo \quoma\core\modules\menu\components\defaultitems\absolute\AbsoluteLink::typeName()?>", false);
 
                 bootbox.hideAll();
             })

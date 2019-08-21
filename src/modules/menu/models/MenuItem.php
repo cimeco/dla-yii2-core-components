@@ -231,7 +231,7 @@ class MenuItem extends ActiveRecord
      * @return string
      */
     public function renderItem($position, $parent_pos= '', $item_class= null, $anchor_class= null, $child_class= null){
-        $target= $this->target !== null ? ' target="'.$this->target.'"' : '_self';
+        $target = $this->target == '_blank' ? ' target="_blank"' : '';
         if(count($this->children) > 0){
 
             $item= '<li class="'.$item_class.' dropdown">'
