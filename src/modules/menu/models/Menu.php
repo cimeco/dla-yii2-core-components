@@ -5,6 +5,7 @@ namespace quoma\core\modules\menu\models;
 use quoma\core\modules\menu\components\MenuItemFactory;
 use quoma\core\modules\menu\MenuModule;
 use Yii;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "menu".
@@ -145,8 +146,9 @@ class Menu extends \yii\db\ActiveRecord
         return true;
     }
     
-
     /**
+     * @deprecated
+     * 
      * Renderiza el menu para ser mostrado en frontend
      * @return string
      */
@@ -177,6 +179,43 @@ class Menu extends \yii\db\ActiveRecord
         return $menu;
     }
 
+    /**
+     * @return array
+     */
+    public function getItemsAsArray()
+    {
+        $items = [];
+
+        //TODO: modificar esto:
+        $menuItems = \quoma\core\modules\menu\components\MenuItemFactory::findAllInstance(['menu_id' => $this->menu_id, 'parent_id' => null]);
+
+        foreach($menuItems as $item){
+            $children = $item->children;
+            $item = [
+                'label' => $item->label,
+                'url' => $children ? '#' : $item->createUrl(),
+            ];
+
+            if($children){
+                $item['items'] = array_map(function ($child){
+                    return [
+                        'label' => $child->label,
+                        'url' => $child->createUrl()
+                    ];
+                }, $children);
+            }
+
+            $items[] = $item;
+        }
+
+        return $items;
+    }
+    
+    /**
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function beforeDelete()
     {
         parent::beforeDelete();

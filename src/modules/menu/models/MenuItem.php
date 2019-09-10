@@ -194,7 +194,12 @@ class MenuItem extends ActiveRecord
         }
     }
 
-
+    /**
+     * @param $item
+     * @param $menu_id
+     * @param null $parent
+     * @return bool
+     */
     public static function create($item, $menu_id, $parent = null){
         $instance= new self();
 
@@ -222,11 +227,32 @@ class MenuItem extends ActiveRecord
 
     }
 
+    /**
+     * Si la clase actual puede ser hija en un dropdown
+     * @return bool
+     */
     public static function canBeChild(){
         return true;
     }
 
     /**
+     * Implementación base: cada tipo de item debe implementar esta función
+     * @return string
+     */
+    public function createUrl(){
+        return $this->url;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClassLabel(){
+        return static::typeName();
+    }
+
+    /**
+     * @deprecated
+     *
      * Renderiza el item para el frontend
      * @return string
      */
@@ -252,15 +278,6 @@ class MenuItem extends ActiveRecord
 
         return $item;
     }
-
-    public function createUrl(){
-        return $this->url;
-    }
-
-    public function getClassLabel(){
-        return static::typeName();
-    }
-
 
 
 }
