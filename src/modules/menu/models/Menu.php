@@ -2,6 +2,7 @@
 
 namespace quoma\core\modules\menu\models;
 
+use quoma\core\db\ActiveRecord;
 use quoma\core\modules\menu\components\MenuItemFactory;
 use quoma\core\modules\menu\MenuModule;
 use Yii;
@@ -20,7 +21,7 @@ use yii\helpers\Html;
  * @property MenuItem[] $menuItems
  * @property MenuLocation[] $menuLocations
  */
-class Menu extends \yii\db\ActiveRecord
+class Menu extends ActiveRecord
 {
     
     public $items;

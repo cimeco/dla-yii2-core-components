@@ -111,9 +111,6 @@ use yii\bootstrap\ActiveForm;
     </div>
     <?php \yii\bootstrap\ActiveForm::end()?>
 
-
-
-
 </div>
 
 <script>

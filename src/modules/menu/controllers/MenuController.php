@@ -134,17 +134,11 @@ class MenuController extends ModuleController
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id, $site_id= null)
+    public function actionDelete($id)
     {
-        if (MenuModule::getInstance()->multisite && empty($site_id)){
-            throw new BadRequestHttpException('site_id is required');
-        }
-
-        if (MenuModule::getInstance()->multisite){
-            $this->setWebsite($site_id);
-        }
-
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $site_id = $model->site_id;
+        $model->delete();
 
         return $this->redirect(['index', 'site_id' => $site_id]);
     }

@@ -42,9 +42,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     'update' => function($url, $model){
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['update', 'id' => $model->menu_id, 'site_id' => MenuModule::getInstance()->site_required  ? $this->context->website->website_id : null], ['class' => 'btn btn-primary']);
                     },
-                    'delete' => function($url, $model){
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->menu_id, 'site_id' => MenuModule::getInstance()->site_required  ? $this->context->website->website_id : null], ['class' => 'btn btn-danger']);
-                    },
+                    'delete' => function ($url, $model, $key) {
+                        if(!isset($model->deletable) || $model->deletable){
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+                                'title' => Yii::t('yii', 'Delete'),
+                                'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                                'data-method' => 'post',
+                                'data-pjax' => '0',
+                                'class' => 'btn btn-danger',
+                            ]);
+                        }else{
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', '#', ['class' => 'btn btn-danger disabled']);
+                        }
+                    }
                 ]
             ],
         ],

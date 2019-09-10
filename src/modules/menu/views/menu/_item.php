@@ -36,7 +36,7 @@
     <input type="hidden" name="Menu[items][<?php echo $key?>][target]" class="item-target-input" value="<?php echo $item->target?>">
     <input type="hidden" name="Menu[items][<?php echo $key?>][class]" class="item-class-input" value="<?php echo $item->class?>">
 
-    <ul class="sub-menu sort-list">
+    <ul id="sub-<?= $key ?>" class="sub-menu sort-list">
         <?php foreach ($item->children as $j => $child):?>
             <li class="menu_item" data-type_name="<?php echo $child->classLabel?>" data-children=0>
                 <div class="input-group">
